@@ -28,10 +28,10 @@ Object.extend(String, {
   }
 });
 
-Object.extend(String.prototype, (function() {
-  var NATIVE_JSON_PARSE_SUPPORT = window.JSON &&
-    typeof JSON.parse === 'function' &&
-    JSON.parse('{"test": true}').test;
+(function(GLOBAL) {
+  var NATIVE_JSON_PARSE_SUPPORT = Prototype.BrowserFeatures.JSON;
+  
+  var stringProto = String.prototype;
 
   function prepareReplacement(replacement) {
     if (Object.isFunction(replacement)) return replacement;
@@ -850,15 +850,30 @@ Object.extend(String.prototype, (function() {
   function interpolate(object, pattern) {
     return new Template(this, pattern).evaluate(object);
   }
-
-  return {
+  
+  // polyfiller
+  Object.extend(stringProto, (function() {
+    if (!String.prototype.trim) {
+      // add missing javascript 1.8.1 methods
+      function trimLeft() { return this.replace(/^\s+/, '') };
+      function trimRight() { return this.replace(/\s+$/, '') };
+    
+      return {
+        trim:      strip, // alias 
+        strip:     strip,
+        trimLeft:  trimLeft,
+        trimRight: trimRight
+      };
+    }
+    
+    return { strip: String.prototype.trim };
+  })());
+  
+  Object.extend(stringProto, {
     gsub:           gsub,
     sub:            sub,
     scan:           scan,
-    truncate:       truncate,
-    // Firefox 3.5+ supports String.prototype.trim
-    // (`trim` is ~ 5x faster than `strip` in FF3.5)
-    strip:          String.prototype.trim || strip,
+    truncate:       truncate,   
     stripTags:      stripTags,
     stripScripts:   stripScripts,
     extractScripts: extractScripts,
@@ -884,6 +899,6 @@ Object.extend(String.prototype, (function() {
     empty:          empty,
     blank:          blank,
     interpolate:    interpolate
-  };
-})());
+  });
+})();
 

@@ -6,8 +6,6 @@
  *  For details, see the Prototype web site: http://www.prototypejs.org/
  *
  *--------------------------------------------------------------------------*/
-
-// just a test to see if git-rebase works
  
 /**
  * Prototype
@@ -96,6 +94,41 @@ var Prototype = {
    *  browser features.
   **/
   BrowserFeatures: {
+    // good to know, but not relevant (for now?) {{{
+    
+    /**
+     *  Prototype.BrowserFeatures.FileAPI -> Boolean
+     *
+     *  Used internally to detect if the browser supports the
+     *  [DOM FileAPI](http://www.w3.org/TR/FileAPI/).
+    **/
+    FileAPI: (typeof window.FileReader == "object"),
+    
+    /**
+     *  Prototype.BrowserFeatures.XMLHttpRequest2 -> Boolean
+     *
+     *  Used internally to detect if the browser supports
+     *  [DOM XMLHttpRequest Level 2](http://dev.w3.org/2006/webapi/XMLHttpRequest-2/).
+    **/
+    XMLHttpRequest2: (typeof window.XMLHttpRequestUpload == "object"),
+    
+    /**
+     *  Prototype.BrowserFeatures.EventSource -> Boolean
+     *
+     *  Used internally to detect if the browser supports
+     *  [DOM Server Sent Events](http://www.w3.org/TR/eventsource/).
+    **/
+    EventSource: (typeof window.EventSource != "undefined"),
+    
+    // }}}
+    
+    /**
+     *  Prototype.BrowserFeatures.JSON -> Boolean
+     *
+     *  Used internally to detect if the browser supports native JSON
+    **/
+    JSON: (typeof window.JSON == "object"),
+    
     /**
      *  Prototype.BrowserFeatures.XPath -> Boolean
      *

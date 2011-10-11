@@ -127,7 +127,13 @@ var Prototype = {
      *
      *  Used internally to detect if the browser supports native JSON
     **/
-    JSON: (typeof window.JSON == "object"),
+    JSON: (function() {
+      try {
+        return (typeof window.JSON == "object" && JSON.parse('{"test":1}').test === 1);
+      } catch (e) {
+        return false;
+      }
+    })(),
     
     /**
      *  Prototype.BrowserFeatures.XPath -> Boolean

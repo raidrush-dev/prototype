@@ -124,3 +124,4 @@ if (!Prototype.BrowserFeatures.JSON) {
     
   })(this);
 }
+

@@ -3,8 +3,9 @@
  *
  *  Extensions to the built-in `Function` object.
 **/
-Object.extend(Function.prototype, (function() {
-  var slice = Array.prototype.slice;
+(function() {
+  var funcProto = Function.prototype,
+      slice     = Array.prototype.slice;
 
   function update(array, args) {
     var arrayLength = array.length, length = args.length;
@@ -376,16 +377,18 @@ Object.extend(Function.prototype, (function() {
       return __method.apply(null, a);
     };
   }
-
-  return {
+  
+  if (!funcProto.bind)
+    Object.extend(funcProto, { bind: bind });
+  
+  Object.extend(funcProto, {
     argumentNames:       argumentNames,
-    bind:                bind,
     bindAsEventListener: bindAsEventListener,
     curry:               curry,
     delay:               delay,
     defer:               defer,
     wrap:                wrap,
     methodize:           methodize
-  }
-})());
+  });
+})();
 

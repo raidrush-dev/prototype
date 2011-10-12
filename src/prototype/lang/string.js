@@ -330,10 +330,35 @@ Object.extend(String, {
    *      // -> [4, undefined] (and displays 'hello world!' in the alert dialog)
   **/
   function extractScripts() {
-    var matchAll = new RegExp(Prototype.ScriptFragment, 'img'),
-        matchOne = new RegExp(Prototype.ScriptFragment, 'im');
-    return (this.replace(/<!--.*?-->/g, '').match(matchAll) || []).map(function(scriptTag) {
-      return (scriptTag.match(matchOne) || ['', ''])[1];
+    var str   = this,
+        stack = [];
+  
+    function addString() { 
+      return '@' + (stack.push(RegExp.$1) - 1); 
+    }
+    
+    function getString() { 
+      var index = parseInt(RegExp.$1);
+      
+      return (typeof stack[index] != "undefined") 
+        ? stack[index] 
+        : '@' + index; // not our problem
+    }
+    
+    // replace strings 
+    str = str.replace(/("(?:[^\\"]+|\\.)*"|'(?:[^\\']+|\\.)')/g, addString);
+    
+    // remove html-comments
+    str = str.replace(/<\!--.*?-->/g, '');
+    
+    // insert strings again
+    str = str.replace(/@([0-9]+)/g, getString);
+    
+    var matchAll = new RegExp(Prototype.ScriptFragment, "img"),
+        matchOne = new RegExp(Prototype.ScriptFragment, "im");
+        
+    return str.match(matchAll).map(function(script) { 
+      return (script.match(matchOne) || ['', ''])[1];
     });
   }
 

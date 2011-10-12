@@ -93,16 +93,14 @@ var Prototype = {
    *  A collection of [[Boolean]] values indicating the presence of specific
    *  browser features.
   **/
-  BrowserFeatures: {
-    // good to know, but not relevant (for now?) {{{
-    
+  BrowserFeatures: {    
     /**
      *  Prototype.BrowserFeatures.FileAPI -> Boolean
      *
      *  Used internally to detect if the browser supports the
      *  [DOM FileAPI](http://www.w3.org/TR/FileAPI/).
     **/
-    FileAPI: (typeof window.FileReader == "object"),
+    FileAPI: (typeof window.FileReader == "function"),
     
     /**
      *  Prototype.BrowserFeatures.XMLHttpRequest2 -> Boolean
@@ -118,9 +116,7 @@ var Prototype = {
      *  Used internally to detect if the browser supports
      *  [DOM Server Sent Events](http://www.w3.org/TR/eventsource/).
     **/
-    EventSource: (typeof window.EventSource != "undefined"),
-    
-    // }}}
+    EventSource: (typeof window.EventSource == "function"),
     
     /**
      *  Prototype.BrowserFeatures.JSON -> Boolean

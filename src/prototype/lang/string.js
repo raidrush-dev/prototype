@@ -854,7 +854,7 @@ Object.extend(String, {
   // polyfiller
   Object.extend(stringProto, (function() {
     if (!stringProto.trim) {
-      // add missing javascript 1.8.1 methods
+      // add missing javascript 1.8.1 methods (non-standard)
       function trimLeft() { return this.replace(/^\s+/, '') };
       function trimRight() { return this.replace(/\s+$/, '') };
     
@@ -900,5 +900,5 @@ Object.extend(String, {
     blank:          blank,
     interpolate:    interpolate
   });
-})();
+})(this);
 

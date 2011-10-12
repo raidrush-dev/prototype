@@ -3,9 +3,9 @@
  *
  *  Extensions to the built-in `Function` object.
 **/
-(function() {
-  var funcProto = Function.prototype,
-      slice     = Array.prototype.slice;
+(function(GLOBAL) {
+  var funcProto = GLOBAL.Function.prototype,
+      slice     = GLOBAL.Array.prototype.slice;
 
   function update(array, args) {
     var arrayLength = array.length, length = args.length;
@@ -390,5 +390,5 @@
     wrap:                wrap,
     methodize:           methodize
   });
-})();
+})(this);
 

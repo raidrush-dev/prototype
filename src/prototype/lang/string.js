@@ -29,9 +29,9 @@ Object.extend(String, {
 });
 
 (function(GLOBAL) {
-  var NATIVE_JSON_PARSE_SUPPORT = Prototype.BrowserFeatures.JSON;
+  var NATIVE_JSON_PARSE_SUPPORT = GLOBAL.Prototype.BrowserFeatures.JSON;
   
-  var stringProto = String.prototype;
+  var stringProto = GLOBAL.String.prototype;
 
   function prepareReplacement(replacement) {
     if (Object.isFunction(replacement)) return replacement;

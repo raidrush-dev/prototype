@@ -277,6 +277,9 @@
       }
       element = element.parentNode;
     }
+    
+    // BUG #160: return document
+    return document;
   }
   
   /**
@@ -559,8 +562,8 @@
     var uid = getUniqueElementID(element);
     var responder = GLOBAL.Event._createResponder(uid, eventName, handler);
     var entry = {
-      responder: responder,
-      handler:   handler
+      responder:  responder,
+      handler:    handler
     };
 
     entries.push(entry);    
@@ -601,7 +604,7 @@
    *  - element (Element | String): The DOM element to observe, or its ID.
    *  - eventName (String): The name of the event, in all lower case, without
    *    the "on" prefix&nbsp;&mdash; e.g., "click" (not "onclick").
-   *  - handler (Function): The function to call when the event occurs.
+   *  - handler (Function): The function to call when the event occurs. 
    *
    *  Registers an event handler on a DOM element. Aliased as [[Element#observe]].
    *
@@ -758,7 +761,7 @@
       observeCustomEvent(element, eventName, responder);
     else
       observeStandardEvent(element, eventName, responder);
-      
+    
     return element;
   }
   
@@ -846,11 +849,11 @@
   **/  
   function stopObserving(element, eventName, handler) {
     element = $(element);
-    var handlerGiven = !Object.isUndefined(handler),
-     eventNameGiven = !Object.isUndefined(eventName);
+    var handlerGiven   = !Object.isUndefined(handler),
+        eventNameGiven = !Object.isUndefined(eventName);
      
     if (!eventNameGiven && !handlerGiven) {
-      stopObservingElement(element);
+      stopObservingElement(element, useCapture);
       return element;
     }
     
@@ -909,10 +912,10 @@
     var registry = getRegistryForElement(element);
     var entries = registry[eventName];
     if (!entries) return;
-    delete registry[eventName];
+    delete registry[eventName]
     
     var i = entries.length;
-    while (i--)
+    while (i--) 
       removeEvent(element, eventName, entries[i].responder);
   }
 
@@ -1007,16 +1010,17 @@
      *    event. (If `selector` was given, this element will be the one that
      *    satisfies the criteria described just above; if not, it will be the
      *    one specified in the `element` argument).
+     *  - useCapture: whenever the event should be handled in the capturing-phase
      *  
      *  Instantiates an `Event.Handler`. **Will not** begin observing until
      *  [[Event.Handler#start]] is called.
     **/
     initialize: function(element, eventName, selector, callback) {
-      this.element   = $(element);
-      this.eventName = eventName;
-      this.selector  = selector;
-      this.callback  = callback;
-      this.handler   = this.handleEvent.bind(this);
+      this.element    = $(element);
+      this.eventName  = eventName;
+      this.selector   = selector;
+      this.callback   = callback;
+      this.handler    = this.handleEvent.bind(this);
     },
     
 

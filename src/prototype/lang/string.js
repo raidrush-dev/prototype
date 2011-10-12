@@ -355,9 +355,8 @@ Object.extend(String, {
     str = str.replace(/@([0-9]+)/g, getString);
     
     var matchAll = new RegExp(Prototype.ScriptFragment, "img"),
-        matchOne = new RegExp(Prototype.ScriptFragment, "im");
-        
-    return str.match(matchAll).map(function(script) { 
+        matchOne = new RegExp(Prototype.ScriptFragment, "im"); 
+    return (str.match(matchAll) ||[]).map(function(script) { 
       return (script.match(matchOne) || ['', ''])[1];
     });
   }

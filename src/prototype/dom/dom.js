@@ -2538,6 +2538,35 @@
     return method(element, className);
   }
   
+  // use native classList instead of regexp's if available
+  if (typeof DIV.classList == "object") {
+    hasClassName = function(element, className) {
+      if (!(element = $(element))) return;
+      return element.classList.contains(className);
+    };
+    
+    addClassName = function(element, className) {
+      if (!(element = $(element))) return;
+      element.classList.add(className);
+      return element;
+    };
+    
+    removeClassName = function(element, className) {
+      if (!(element = $(element))) return;
+      element.classList.remove(className);
+      return element;
+    };
+    
+    toggleClassName = function(element, className, bool) { 
+      if (!(element = $(element))) return;
+      if (Object.isUndefined(bool)) 
+        element.classList.toggle(className);
+      else
+        element.classList[!!bool ? 'remove' : 'add'](className); 
+      return element;
+    };
+  }
+  
   var ATTRIBUTE_TRANSLATIONS = {};
   
   // Test attributes.

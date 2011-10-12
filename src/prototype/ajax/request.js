@@ -179,17 +179,21 @@ Ajax.Request = Class.create(Ajax.Base, {
   request: function(url) {
     this.url = url;
     this.method = this.options.method;
-    var params = Object.isString(this.options.parameters) ?
+    var append = false, 
+        params = Object.isString(this.options.parameters) ?
           this.options.parameters :
           Object.toQueryString(this.options.parameters);
-
+          
     if (!['get', 'post'].include(this.method)) {
-      // simulate other verbs over post
-      params += (params ? '&' : '') + "_method=" + this.method;
-      this.method = 'post';
+        // simulate other verbs over post
+        
+        // BUG #1245: _method is getting lost if postBody is not empty
+        params += "_method=" + this.method;
+        append = true;
+        this.method = 'post';
     }
 
-    if (params && this.method === 'get') {
+    if (append || (params && this.method === 'get')) {
       // when GET, append parameters to URL
       this.url += (this.url.include('?') ? '&' : '?') + params;
     }

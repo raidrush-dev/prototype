@@ -912,7 +912,7 @@
     var registry = getRegistryForElement(element);
     var entries = registry[eventName];
     if (!entries) return;
-    delete registry[eventName]
+    delete registry[eventName];
     
     var i = entries.length;
     while (i--) 
@@ -1010,7 +1010,6 @@
      *    event. (If `selector` was given, this element will be the one that
      *    satisfies the criteria described just above; if not, it will be the
      *    one specified in the `element` argument).
-     *  - useCapture: whenever the event should be handled in the capturing-phase
      *  
      *  Instantiates an `Event.Handler`. **Will not** begin observing until
      *  [[Event.Handler#start]] is called.

@@ -2538,7 +2538,7 @@
     return method(element, className);
   }
   
-  // use native classList instead of regexp's if available
+  // use native classList instead of regexps if available
   if (typeof DIV.classList == "object") {
     hasClassName = function(element, className) {
       if (!(element = $(element))) return;

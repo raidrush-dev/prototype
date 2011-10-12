@@ -332,7 +332,7 @@ Object.extend(String, {
   function extractScripts() {
     var matchAll = new RegExp(Prototype.ScriptFragment, 'img'),
         matchOne = new RegExp(Prototype.ScriptFragment, 'im');
-    return (this.match(matchAll) || []).map(function(scriptTag) {
+    return (this.replace(/<!--.*?-->/g, '').match(matchAll) || []).map(function(scriptTag) {
       return (scriptTag.match(matchOne) || ['', ''])[1];
     });
   }
@@ -853,7 +853,7 @@ Object.extend(String, {
   
   // polyfiller
   Object.extend(stringProto, (function() {
-    if (!String.prototype.trim) {
+    if (!stringProto.trim) {
       // add missing javascript 1.8.1 methods
       function trimLeft() { return this.replace(/^\s+/, '') };
       function trimRight() { return this.replace(/\s+$/, '') };
@@ -863,10 +863,10 @@ Object.extend(String, {
         strip:     strip,
         trimLeft:  trimLeft,
         trimRight: trimRight
-      };
+      }
     }
     
-    return { strip: String.prototype.trim };
+    return { strip: stringProto.trim };
   })());
   
   Object.extend(stringProto, {

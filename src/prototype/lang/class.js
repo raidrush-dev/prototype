@@ -57,7 +57,10 @@ var Class = (function() {
       parent = properties.shift();
 
     function klass() {
-      this.initialize.apply(this, arguments);
+      var ret = this.initialize.apply(this, arguments);
+      
+      if (typeof ret != "undefined")
+        return ret;
     }
 
     Object.extend(klass, Class.Methods);

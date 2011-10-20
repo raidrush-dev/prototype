@@ -564,7 +564,7 @@
     return typeof object === "undefined";
   }
 
-  extend(Object, {
+  extend(GLOBAL.JHP, {
     extend:        extend,
     inspect:       inspect,
     toJSON:        NATIVE_JSON_STRINGIFY_SUPPORT ? stringify : toJSON,

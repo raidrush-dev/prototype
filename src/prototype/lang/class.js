@@ -57,10 +57,9 @@ var Class = (function() {
       parent = properties.shift();
 
     function klass() {
-      var ret = this.initialize.apply(this, arguments);
-      
-      if (typeof ret != "undefined")
-        return ret;
+      // we should be able to return something else
+      // new (function() { return []; }) -> Array
+      return this.initialize.apply(this, arguments);
     }
 
     Object.extend(klass, Class.Methods);
